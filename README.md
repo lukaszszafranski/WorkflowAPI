@@ -20,6 +20,7 @@ This project is backend part of a bigger project: Kanban board with real-time ch
 * Swashbuckle.AspNetCore
 * Microsoft.OpenApi
 * JWT
+* NLog
 * Azure SQL Database and Azure App Service for backend and frontend part of the application.
 
 <!-- GETTING STARTED -->
