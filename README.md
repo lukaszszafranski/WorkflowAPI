@@ -56,3 +56,6 @@ For usage examples please refer to the [Documentation v1] or [Live Documentation
 
 ## WWW
 For future reference
+
+## Design Document
+https://docs.google.com/document/d/1tpDOvnk2pOgKiGyWv67dbtkNvh2Kq3ow-ja4Bn4SdpY/edit?pli=1#
