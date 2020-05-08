@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BoardAPI.Models.OrganizationsModels;
+using BoardAPI.Models.UserModels;
+using System;
 using System.Collections.Generic;
 
 namespace BoardAPI.Models.ProjectsModels
@@ -17,9 +19,13 @@ namespace BoardAPI.Models.ProjectsModels
         public string VisibilityState { get; set; } //Private/Public
         public string Status { get; set; } //Archived, Closed, Done, etc.
 
-        ////Foreign Keys
-        //public int OrganizationID { get; set; } //null if not in any organization
-        //public string OrganizationName { get; set; }
-        //public IEnumerable<User> Members { get; set; }
+        // Foreign Keys
+        
+        // Organization
+        public int OrganizationID { get; set; } //null if not in any organization
+        public Organization Organization { get; set; }
+
+        // User
+        public IEnumerable<User> Members { get; set; }
     }
 }

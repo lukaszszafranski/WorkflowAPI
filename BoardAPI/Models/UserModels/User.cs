@@ -11,6 +11,7 @@ namespace BoardAPI.Models.UserModels
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        
         //Foreign Key
         public Organization Organization { get; set; }
         public int OrganizationID { get; set; }

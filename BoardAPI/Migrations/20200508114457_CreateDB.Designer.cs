@@ -4,14 +4,16 @@ using BoardAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoardAPI.Migrations
 {
     [DbContext(typeof(BoardAPIContext))]
-    partial class BoardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20200508114457_CreateDB")]
+    partial class CreateDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
