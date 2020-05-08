@@ -1,5 +1,4 @@
 ﻿using BoardAPI.Models.OrganizationsModels;
-using System.Collections.Generic;
 
 namespace BoardAPI.Models.UserModels
 {

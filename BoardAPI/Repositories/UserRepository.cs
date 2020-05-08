@@ -10,7 +10,7 @@ namespace BoardAPI.Repositories
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        private BoardAPIContext _context;
+        private new BoardAPIContext _context;
 
         public UserRepository(BoardAPIContext context) : base(context)
         {

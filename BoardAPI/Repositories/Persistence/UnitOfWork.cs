@@ -1,8 +1,5 @@
 ﻿using BoardAPI.Data;
 using BoardAPI.Repositories.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BoardAPI.Repositories.Persistence

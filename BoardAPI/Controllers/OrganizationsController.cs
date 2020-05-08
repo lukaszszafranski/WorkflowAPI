@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BoardAPI.Data;
 using BoardAPI.Models.OrganizationsModels;
+using BoardAPI.Services;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
+using BoardAPI.Resources;
 
 namespace BoardAPI.Controllers
 {
@@ -14,18 +14,26 @@ namespace BoardAPI.Controllers
     [ApiController]
     public class OrganizationsController : ControllerBase
     {
-        private readonly BoardAPIContext _context;
+        private readonly IOrganizationService _organizationService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<OrganizationsController> _logger;
 
-        public OrganizationsController(BoardAPIContext context)
+        public OrganizationsController(IOrganizationService organizationService, IMapper mapper, ILogger<OrganizationsController> logger)
         {
-            _context = context;
+            _organizationService = organizationService;
+            _mapper = mapper;
+            _logger = logger;
+            _logger.LogDebug("NLog injected in OrganizationController");
         }
 
         // GET: api/Organizations
         [HttpGet]
-        public IEnumerable<Organization> GetOrganizations()
+        public async Task<IEnumerable<OrganizationResource>> GetOrganizations()
         {
-            return _context.Organizations;
+            var OrganizationData = await _organizationService.ListAsync();
+            var resources = _mapper.Map<IEnumerable<Organization>, IEnumerable<OrganizationResource>>(OrganizationData);
+
+            return resources;
         }
 
         // GET: api/Organizations/5
@@ -34,52 +42,17 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            var organization = await _context.Organizations.FindAsync(id);
+            var OrganizationData = await _organizationService.FindByIDAsync(id);
 
-            if (organization == null)
+            if (!_organizationService.SpecificOrganizationDataExists(id))
             {
                 return NotFound();
             }
 
-            return Ok(organization);
-        }
-
-        // PUT: api/Organizations/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrganization([FromRoute] int id, [FromBody] Organization organization)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != organization.OrganizationID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(organization).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrganizationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(OrganizationData);
         }
 
         // POST: api/Organizations
@@ -88,13 +61,17 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            _context.Organizations.Add(organization);
-            await _context.SaveChangesAsync();
+            var result = _organizationService.SaveAsync(organization);
 
-            return CreatedAtAction("GetOrganization", new { id = organization.OrganizationID }, organization);
+            if (!result.Result.Success)
+            {
+                return BadRequest(result.Result.Message);
+            }
+
+            return await Task.Run(() => Ok(_mapper.Map<Organization, OrganizationResource>(result.Result._organization)));
         }
 
         // DELETE: api/Organizations/5
@@ -103,24 +80,19 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            var organization = await _context.Organizations.FindAsync(id);
-            if (organization == null)
+            var result = await _organizationService.DeleteAsync(id);
+
+            if (!result.Success)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
 
-            _context.Organizations.Remove(organization);
-            await _context.SaveChangesAsync();
+            var organizationResource = _mapper.Map<Organization, OrganizationResource>(result._organization);
 
-            return Ok(organization);
-        }
-
-        private bool OrganizationExists(int id)
-        {
-            return _context.Organizations.Any(e => e.OrganizationID == id);
+            return Ok(organizationResource);
         }
     }
 }

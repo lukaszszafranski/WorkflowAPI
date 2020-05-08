@@ -28,7 +28,6 @@ namespace BoardAPI.Migrations
                     ProjectID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
-                    WorkItemsCount = table.Column<int>(nullable: false),
                     Author = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false),

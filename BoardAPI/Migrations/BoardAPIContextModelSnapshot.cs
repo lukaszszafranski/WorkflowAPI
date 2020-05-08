@@ -69,8 +69,6 @@ namespace BoardAPI.Migrations
 
                     b.Property<string>("VisibilityState");
 
-                    b.Property<int>("WorkItemsCount");
-
                     b.HasKey("ProjectID");
 
                     b.HasIndex("OrganizationID");

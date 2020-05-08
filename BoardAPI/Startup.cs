@@ -45,8 +45,7 @@ namespace BoardAPI
             services.AddDbContext<BoardAPIContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BoardAPIContext")));
 
-            //services.AddScoped<IStockRepository, StockRepository>();
-            //services.AddScoped<IStockService, StockService>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(Startup));
@@ -93,6 +92,10 @@ namespace BoardAPI
             // configure DI for application services
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<IOrganizationService, OrganizationService>();
 
             services.AddSwaggerGen(c =>
             {

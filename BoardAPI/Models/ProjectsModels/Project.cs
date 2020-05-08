@@ -10,7 +10,6 @@ namespace BoardAPI.Models.ProjectsModels
         public int ProjectID { get; set; }
         public string Title { get; set; }
         public IEnumerable<WorkItem> WorkItems { get; set; }
-        public int WorkItemsCount { get; set; }
         public string Author { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
         public DateTime CreationDate { get; set; }

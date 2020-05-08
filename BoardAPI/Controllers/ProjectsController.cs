@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BoardAPI.Data;
 using BoardAPI.Models.ProjectsModels;
+using AutoMapper;
+using BoardAPI.Services;
+using Microsoft.Extensions.Logging;
+using BoardAPI.Resources;
+using BoardAPI.Helpers;
 
 namespace BoardAPI.Controllers
 {
@@ -14,18 +15,26 @@ namespace BoardAPI.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly BoardAPIContext _context;
+        private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ProjectsController> _logger;
 
-        public ProjectsController(BoardAPIContext context)
+        public ProjectsController(IProjectService projectService, IMapper mapper, ILogger<ProjectsController> logger)
         {
-            _context = context;
+            _projectService = projectService;
+            _mapper = mapper;
+            _logger = logger;
+            _logger.LogDebug("NLog injected in ProjectsController");
         }
 
         // GET: api/Projects
         [HttpGet]
-        public IEnumerable<Project> GetProjects()
+        public async Task<IEnumerable<ProjectResource>> GetProjects()
         {
-            return _context.Projects;
+            var ProjectData = await _projectService.ListAsync();
+            var resources = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectResource>>(ProjectData);
+
+            return resources;
         }
 
         // GET: api/Projects/5
@@ -34,52 +43,48 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            var project = await _context.Projects.FindAsync(id);
+            var ProjectData = await _projectService.FindByIDAsync(id);
 
-            if (project == null)
+            if (!_projectService.SpecificProjectDataExists(id))
             {
                 return NotFound();
             }
 
-            return Ok(project);
+            return Ok(ProjectData);
         }
 
         // PUT: api/Projects/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject([FromRoute] int id, [FromBody] Project project)
+        public IActionResult PutProject([FromRoute] int id, [FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
             if (id != project.ProjectID)
             {
-                return BadRequest();
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            _context.Entry(project).State = EntityState.Modified;
+            // map model to entity and set id
+            var editProject = _mapper.Map<Project>(project);
+            editProject.ProjectID = id;
 
             try
             {
-                await _context.SaveChangesAsync();
+                // update project 
+                _projectService.Update(editProject);
+                return Ok();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (AppException ex)
             {
-                if (!ProjectExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
             }
-
-            return NoContent();
         }
 
         // POST: api/Projects
@@ -88,13 +93,17 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
+            var result = _projectService.SaveAsync(project);
 
-            return CreatedAtAction("GetProject", new { id = project.ProjectID }, project);
+            if (!result.Result.Success)
+            {
+                return BadRequest(result.Result.Message);
+            }
+
+            return await Task.Run(() => Ok(_mapper.Map<Project, ProjectResource>(result.Result._project)));
         }
 
         // DELETE: api/Projects/5
@@ -103,24 +112,19 @@ namespace BoardAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
+            var result = await _projectService.DeleteAsync(id);
+
+            if (!result.Success)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
 
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
+            var projectResource = _mapper.Map<Project, ProjectResource>(result._project);
 
-            return Ok(project);
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.ProjectID == id);
+            return Ok(projectResource);
         }
     }
 }

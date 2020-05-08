@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardAPI.Migrations
 {
     [DbContext(typeof(BoardAPIContext))]
-    [Migration("20200508114457_CreateDB")]
+    [Migration("20200508145105_CreateDB")]
     partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,8 +70,6 @@ namespace BoardAPI.Migrations
                     b.Property<string>("Title");
 
                     b.Property<string>("VisibilityState");
-
-                    b.Property<int>("WorkItemsCount");
 
                     b.HasKey("ProjectID");
 
