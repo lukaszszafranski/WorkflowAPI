@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoardAPI.Migrations
 {
-    [DbContext(typeof(BoardAPIContext))]
+    [DbContext(typeof(WorkflowAPIContext))]
     partial class BoardAPIContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

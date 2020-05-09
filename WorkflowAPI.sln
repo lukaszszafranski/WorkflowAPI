@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardAPI", "BoardAPI\BoardAPI.csproj", "{3AD7202C-385F-4BCC-B09C-DC243142B41F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowAPI", "BoardAPI\WorkflowAPI.csproj", "{3AD7202C-385F-4BCC-B09C-DC243142B41F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardAPI.Tests", "BoardAPI.Tests\BoardAPI.Tests.csproj", "{CCBA7684-93A7-46EB-86C4-C6EAA120AC3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowAPI.Tests", "BoardAPI.Tests\WorkflowAPI.Tests.csproj", "{CCBA7684-93A7-46EB-86C4-C6EAA120AC3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

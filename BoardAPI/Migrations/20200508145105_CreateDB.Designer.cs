@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoardAPI.Migrations
 {
-    [DbContext(typeof(BoardAPIContext))]
+    [DbContext(typeof(WorkflowAPIContext))]
     [Migration("20200508145105_CreateDB")]
     partial class CreateDB
     {

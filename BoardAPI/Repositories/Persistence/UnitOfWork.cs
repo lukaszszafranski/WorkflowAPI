@@ -6,9 +6,9 @@ namespace BoardAPI.Repositories.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly BoardAPIContext _context;
+        private readonly WorkflowAPIContext _context;
 
-        public UnitOfWork(BoardAPIContext context)
+        public UnitOfWork(WorkflowAPIContext context)
         {
             _context = context;
         }

@@ -10,9 +10,9 @@ namespace BoardAPI.Repositories
 {
     public class ProjectRepository : BaseRepository, IProjectRepository
     {
-        private new BoardAPIContext _context;
+        private new WorkflowAPIContext _context;
 
-        public ProjectRepository(BoardAPIContext context) : base(context)
+        public ProjectRepository(WorkflowAPIContext context) : base(context)
         {
             _context = context;
         }

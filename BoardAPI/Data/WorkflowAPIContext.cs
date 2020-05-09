@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardAPI.Data
 {
-    public class BoardAPIContext : DbContext
+    public class WorkflowAPIContext : DbContext
     {
-        public BoardAPIContext (DbContextOptions<BoardAPIContext> options)
+        public WorkflowAPIContext (DbContextOptions<WorkflowAPIContext> options)
             : base(options)
         {
 

@@ -42,8 +42,8 @@ namespace BoardAPI
                         options.SerializerSettings.Formatting = Formatting.Indented;
                     });
 
-            services.AddDbContext<BoardAPIContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BoardAPIContext")));
+            services.AddDbContext<WorkflowAPIContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("WorkflowAPIContext")));
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -99,7 +99,7 @@ namespace BoardAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "BoardAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "WorkflowAPI", Version = "v1" });
             });
         }
 
@@ -139,7 +139,7 @@ namespace BoardAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "BoardAPI V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkflowAPI V1");
             });
         }
     }

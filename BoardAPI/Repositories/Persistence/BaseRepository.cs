@@ -4,9 +4,9 @@ namespace BoardAPI.Repositories.Persistence
 {
     public abstract class BaseRepository
     {
-        protected readonly BoardAPIContext _context;
+        protected readonly WorkflowAPIContext _context;
 
-        public BaseRepository(BoardAPIContext context)
+        public BaseRepository(WorkflowAPIContext context)
         {
             _context = context;
         }

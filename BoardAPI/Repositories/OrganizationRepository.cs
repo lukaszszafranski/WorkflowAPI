@@ -9,9 +9,9 @@ namespace BoardAPI.Repositories
 {
     public class OrganizationRepository : BaseRepository, IOrganizationRepository
     {
-        private new BoardAPIContext _context;
+        private new WorkflowAPIContext _context;
 
-        public OrganizationRepository(BoardAPIContext context) : base(context)
+        public OrganizationRepository(WorkflowAPIContext context) : base(context)
         {
             _context = context;
         }
