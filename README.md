@@ -38,24 +38,18 @@ To get a local copy up and running follow these simple steps:
 #### For Local
 1. Clone the repo
 ```sh
-git clone https://github.com/ProjektyGrupowe/BoardAPI.git
-```
-
-#### For Azure
-1. Go to
-```sh
-For future reference
+git clone https://github.com/ProjektyGrupowe/WorkflowAPI.git
 ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-For usage examples please refer to the [Documentation v1] or [Live Documentation in API] - Both for future reference
+For usage examples please refer to the [Live Documentation in API](https://workflowapi2020.azurewebsites.net/swagger/index.html)
 
 ## Trello Board
 [Trello](https://trello.com/b/urwhTkAJ/in%C5%BCynieria-oprogramowania)
 
 ## WWW
-For future reference
+https://workflowapi2020.azurewebsites.net/
 
 ## Design Document
 https://docs.google.com/document/d/1tpDOvnk2pOgKiGyWv67dbtkNvh2Kq3ow-ja4Bn4SdpY/edit?pli=1#
