@@ -19,12 +19,13 @@ namespace BoardAPI.Models.ProjectsModels
         public string Status { get; set; } //Archived, Closed, Done, etc.
 
         // Foreign Keys
-        
-        // Organization
-        public int OrganizationID { get; set; } //null if not in any organization
-        public Organization Organization { get; set; }
 
-        // User
-        public IEnumerable<User> Members { get; set; }
+        // Organization
+        //public int OrganizationID { get; set; } //null if not in any organization
+        //public Organization Organization { get; set; }
+
+        //// User
+        //public User User { get; set; }
+        //public int UserID { get; set; }
     }
 }

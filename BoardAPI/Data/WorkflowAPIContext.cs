@@ -15,9 +15,14 @@ namespace BoardAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Organization>()
-                        .HasMany(o => o.Members)
-                        .WithOne(i => i.Organization);
+            //modelBuilder.Entity<Organization>()
+            //            .HasMany(o => o.Members)
+            //            .WithOne(i => i.Organization);
+
+            //modelBuilder.Entity<Project>()
+            //            .HasOne(p => p.User)
+            //            .WithOne(i => i.Project)
+            //            .HasForeignKey<User>(x => x.ProjectID);
         }
 
         public DbSet<User> Users { get; set; }

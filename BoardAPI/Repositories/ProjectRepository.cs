@@ -67,8 +67,6 @@ namespace BoardAPI.Repositories
 
             // update project properties
             project.Title = projectParam.Title;
-            project.Status = projectParam.Status;
-            project.VisibilityState = projectParam.VisibilityState;
 
             _context.Projects.Update(project);
             _context.SaveChanges();

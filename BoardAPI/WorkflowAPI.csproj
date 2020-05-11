@@ -9,6 +9,18 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200502173439_CreateDB.cs" />
     <Compile Remove="Migrations\20200502173439_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200508145105_CreateDB.cs" />
+    <Compile Remove="Migrations\20200508145105_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200510202340_CreateDB.cs" />
+    <Compile Remove="Migrations\20200510202340_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200510204228_CreateDB.cs" />
+    <Compile Remove="Migrations\20200510204228_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200510204451_CreateDatabase.cs" />
+    <Compile Remove="Migrations\20200510204451_CreateDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200511195324_CreateDatabase_v2.cs" />
+    <Compile Remove="Migrations\20200511195324_CreateDatabase_v2.Designer.cs" />
+    <Compile Remove="Migrations\20200511200510_CreateDatabase_v2.1.cs" />
+    <Compile Remove="Migrations\20200511200510_CreateDatabase_v2.1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

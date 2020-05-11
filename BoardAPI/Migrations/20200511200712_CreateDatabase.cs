@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BoardAPI.Migrations
+namespace WorkflowAPI.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,18 +32,28 @@ namespace BoardAPI.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false),
                     VisibilityState = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    OrganizationID = table.Column<int>(nullable: false)
+                    Status = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectID);
-                    table.ForeignKey(
-                        name: "FK_Projects_Organizations_OrganizationID",
-                        column: x => x.OrganizationID,
-                        principalTable: "Organizations",
-                        principalColumn: "OrganizationID",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,37 +98,6 @@ namespace BoardAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: true),
-                    PasswordHash = table.Column<byte[]>(nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: true),
-                    OrganizationID = table.Column<int>(nullable: false),
-                    ProjectID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Organizations_OrganizationID",
-                        column: x => x.OrganizationID,
-                        principalTable: "Organizations",
-                        principalColumn: "OrganizationID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_Projects_ProjectID",
-                        column: x => x.ProjectID,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "WorkItem",
                 columns: table => new
                 {
@@ -145,23 +124,8 @@ namespace BoardAPI.Migrations
                 column: "ProjectID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_OrganizationID",
-                table: "Projects",
-                column: "OrganizationID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tag_ProjectID",
                 table: "Tag",
-                column: "ProjectID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_OrganizationID",
-                table: "Users",
-                column: "OrganizationID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ProjectID",
-                table: "Users",
                 column: "ProjectID");
 
             migrationBuilder.CreateIndex(
@@ -176,6 +140,9 @@ namespace BoardAPI.Migrations
                 name: "Column");
 
             migrationBuilder.DropTable(
+                name: "Organizations");
+
+            migrationBuilder.DropTable(
                 name: "Tag");
 
             migrationBuilder.DropTable(
@@ -186,9 +153,6 @@ namespace BoardAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "Organizations");
         }
     }
 }

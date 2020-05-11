@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BoardAPI.Migrations
+namespace WorkflowAPI.Migrations
 {
     [DbContext(typeof(WorkflowAPIContext))]
-    partial class BoardAPIContextModelSnapshot : ModelSnapshot
+    partial class WorkflowAPIContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -61,8 +61,6 @@ namespace BoardAPI.Migrations
 
                     b.Property<DateTime>("LastModifiedDate");
 
-                    b.Property<int>("OrganizationID");
-
                     b.Property<string>("Status");
 
                     b.Property<string>("Title");
@@ -70,8 +68,6 @@ namespace BoardAPI.Migrations
                     b.Property<string>("VisibilityState");
 
                     b.HasKey("ProjectID");
-
-                    b.HasIndex("OrganizationID");
 
                     b.ToTable("Projects");
                 });
@@ -124,21 +120,13 @@ namespace BoardAPI.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<int>("OrganizationID");
-
                     b.Property<byte[]>("PasswordHash");
 
                     b.Property<byte[]>("PasswordSalt");
 
-                    b.Property<int?>("ProjectID");
-
                     b.Property<string>("Username");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrganizationID");
-
-                    b.HasIndex("ProjectID");
 
                     b.ToTable("Users");
                 });
@@ -148,14 +136,6 @@ namespace BoardAPI.Migrations
                     b.HasOne("BoardAPI.Models.ProjectsModels.Project")
                         .WithMany("Columns")
                         .HasForeignKey("ProjectID");
-                });
-
-            modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Project", b =>
-                {
-                    b.HasOne("BoardAPI.Models.OrganizationsModels.Organization", "Organization")
-                        .WithMany("ProjectsList")
-                        .HasForeignKey("OrganizationID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Tag", b =>
@@ -169,18 +149,6 @@ namespace BoardAPI.Migrations
                 {
                     b.HasOne("BoardAPI.Models.ProjectsModels.Project")
                         .WithMany("WorkItems")
-                        .HasForeignKey("ProjectID");
-                });
-
-            modelBuilder.Entity("BoardAPI.Models.UserModels.User", b =>
-                {
-                    b.HasOne("BoardAPI.Models.OrganizationsModels.Organization", "Organization")
-                        .WithMany("Members")
-                        .HasForeignKey("OrganizationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BoardAPI.Models.ProjectsModels.Project")
-                        .WithMany("Members")
                         .HasForeignKey("ProjectID");
                 });
 #pragma warning restore 612, 618
