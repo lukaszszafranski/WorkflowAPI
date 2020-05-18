@@ -21,6 +21,10 @@
     <Compile Remove="Migrations\20200511195324_CreateDatabase_v2.Designer.cs" />
     <Compile Remove="Migrations\20200511200510_CreateDatabase_v2.1.cs" />
     <Compile Remove="Migrations\20200511200510_CreateDatabase_v2.1.Designer.cs" />
+    <Compile Remove="Migrations\20200511200712_CreateDatabase.cs" />
+    <Compile Remove="Migrations\20200511200712_CreateDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200518171328_CreateDatabaseFinal.cs" />
+    <Compile Remove="Migrations\20200518171328_CreateDatabaseFinal.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

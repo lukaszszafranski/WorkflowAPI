@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WorkflowAPI.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class CreateDatabaseFinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,12 +27,7 @@ namespace WorkflowAPI.Migrations
                 {
                     ProjectID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: true),
-                    Author = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(nullable: false),
-                    VisibilityState = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,44 +72,22 @@ namespace WorkflowAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "Task",
                 columns: table => new
                 {
-                    TagID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TagName = table.Column<string>(nullable: true),
-                    TagDescription = table.Column<string>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tag", x => x.TagID);
-                    table.ForeignKey(
-                        name: "FK_Tag_Projects_ProjectID",
-                        column: x => x.ProjectID,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WorkItem",
-                columns: table => new
-                {
-                    WorkItemID = table.Column<int>(nullable: false)
+                    TaskID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
+                    ColumnID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkItem", x => x.WorkItemID);
+                    table.PrimaryKey("PK_Task", x => x.TaskID);
                     table.ForeignKey(
-                        name: "FK_WorkItem_Projects_ProjectID",
-                        column: x => x.ProjectID,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectID",
+                        name: "FK_Task_Column_ColumnID",
+                        column: x => x.ColumnID,
+                        principalTable: "Column",
+                        principalColumn: "ColumnID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -124,32 +97,24 @@ namespace WorkflowAPI.Migrations
                 column: "ProjectID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag_ProjectID",
-                table: "Tag",
-                column: "ProjectID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkItem_ProjectID",
-                table: "WorkItem",
-                column: "ProjectID");
+                name: "IX_Task_ColumnID",
+                table: "Task",
+                column: "ColumnID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Column");
-
-            migrationBuilder.DropTable(
                 name: "Organizations");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Task");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "WorkItem");
+                name: "Column");
 
             migrationBuilder.DropTable(
                 name: "Projects");
