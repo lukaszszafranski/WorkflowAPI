@@ -7,7 +7,7 @@ namespace BoardAPI.Repositories
     public interface IProjectRepository
     {
         Task<IEnumerable<Project>> ListAsync();
-        Task AddAsync(Project project);
+        System.Threading.Tasks.Task AddAsync(Project project);
         Task<Project> FindByIDAsync(int ID);
         int CountOfProjectData();
         void Remove(Project project);

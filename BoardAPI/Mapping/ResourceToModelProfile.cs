@@ -19,17 +19,13 @@ namespace BoardAPI.Mapping
             CreateMap<ProjectResource, Project>().ForMember(x => x.ProjectID, opt => opt.Ignore());
             CreateMap<SaveProjectResource, Project>().ForMember(x => x.ProjectID, opt => opt.Ignore());
 
-            CreateMap<SaveWorkItemResource, WorkItemResource>();
-            CreateMap<WorkItemResource, WorkItem>().ForMember(x => x.WorkItemID, opt => opt.Ignore());
-            CreateMap<SaveWorkItemResource, WorkItem>().ForMember(x => x.WorkItemID, opt => opt.Ignore());
-
-            CreateMap<SaveTagResource, TagResource>();
-            CreateMap<TagResource, Tag>().ForMember(x => x.TagID, opt => opt.Ignore());
-            CreateMap<SaveTagResource, Tag>().ForMember(x => x.TagID, opt => opt.Ignore());
-
             CreateMap<SaveColumnResource, ColumnResource>();
             CreateMap<ColumnResource, Column>().ForMember(x => x.ColumnID, opt => opt.Ignore());
             CreateMap<SaveColumnResource, Column>().ForMember(x => x.ColumnID, opt => opt.Ignore());
+
+            CreateMap<SaveTaskResource, TaskResource>();
+            CreateMap<SaveTaskResource, Models.ProjectsModels.Task>().ForMember(x => x.TaskID, opt => opt.Ignore());
+            CreateMap<TaskResource, Models.ProjectsModels.Task>().ForMember(x => x.TaskID, opt => opt.Ignore());
 
             //Organization mapping
             CreateMap<SaveOrganizationResource, OrganizationResource>();

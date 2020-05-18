@@ -16,7 +16,7 @@ namespace BoardAPI.Repositories
         {
             _context = context;
         }
-        public async Task AddAsync(Project project)
+        public async System.Threading.Tasks.Task AddAsync(Project project)
         {
             await _context.Projects.AddAsync(project);
         }
@@ -28,7 +28,7 @@ namespace BoardAPI.Repositories
 
         public async Task<Project> FindByIDAsync(int ID)
         {
-            return await Task.Run(() => _context.Projects.Where(p => p.ProjectID == ID).ElementAt(0));
+            return await System.Threading.Tasks.Task.Run(() => _context.Projects.Where(p => p.ProjectID == ID).ElementAt(0));
         }
 
         public bool IsDbEmpty()
@@ -38,7 +38,7 @@ namespace BoardAPI.Repositories
 
         public async Task<IEnumerable<Project>> ListAsync()
         {
-            return await Task.Run(() => _context.Projects.ToList());
+            return await System.Threading.Tasks.Task.Run(() => _context.Projects.ToList());
         }
 
         public void Remove(Project project)

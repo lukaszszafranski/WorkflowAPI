@@ -103,7 +103,7 @@ namespace BoardAPI.Controllers
                 return BadRequest(result.Result.Message);
             }
 
-            return await Task.Run(() => Ok(_mapper.Map<Project, ProjectResource>(result.Result._project)));
+            return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Project, ProjectResource>(result.Result._project)));
         }
 
         // DELETE: api/Projects/5

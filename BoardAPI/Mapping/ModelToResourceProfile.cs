@@ -17,13 +17,10 @@ namespace BoardAPI.Mapping
             //Project Mapping
             CreateMap<Project, ProjectResource>();
             CreateMap<ProjectResource, SaveProjectResource>();
-            CreateMap<Tag, TagResource>();
             CreateMap<Column, ColumnResource>();
-            CreateMap<WorkItem, WorkItemResource>();
-            CreateMap<TagResource, SaveTagResource>();
             CreateMap<ColumnResource, SaveColumnResource>();
-            CreateMap<WorkItemResource, SaveWorkItemResource>();
-
+            CreateMap<Models.ProjectsModels.Task, TaskResource>();
+            CreateMap<TaskResource, SaveTaskResource>();
             //Organization Mapping
             CreateMap<Organization, OrganizationResource>();
             CreateMap<OrganizationResource, SaveOrganizationResource>();
