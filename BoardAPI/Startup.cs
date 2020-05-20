@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using WorkflowAPI.Chat;
 
 namespace BoardAPI
 {
@@ -96,6 +97,7 @@ namespace BoardAPI
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IOrganizationService, OrganizationService>();
+            services.AddSignalR();
 
             services.AddSwaggerGen(c =>
             {
@@ -135,6 +137,11 @@ namespace BoardAPI
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(result);
             }));
+
+            app.UseSignalR(options =>
+            {
+                options.MapHub<MessageHub>("/MessageHub");
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
