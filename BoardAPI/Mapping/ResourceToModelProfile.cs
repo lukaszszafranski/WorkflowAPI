@@ -20,8 +20,8 @@ namespace BoardAPI.Mapping
             CreateMap<SaveProjectResource, Project>().ForMember(x => x.ProjectID, opt => opt.Ignore());
 
             CreateMap<SaveColumnResource, ColumnResource>();
-            CreateMap<ColumnResource, Column>().ForMember(x => x.ColumnID, opt => opt.Ignore());
-            CreateMap<SaveColumnResource, Column>().ForMember(x => x.ColumnID, opt => opt.Ignore());
+            CreateMap<ColumnResource, Column>();
+            CreateMap<SaveColumnResource, Column>();
 
             CreateMap<SaveTaskResource, TaskResource>();
             CreateMap<SaveTaskResource, Models.ProjectsModels.Task>().ForMember(x => x.TaskID, opt => opt.Ignore());

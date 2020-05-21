@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WorkflowAPI.Migrations
 {
-    public partial class CreateDatabaseFinalMaybe : Migration
+    public partial class CreateDatabaseFinalMaybeMaybe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

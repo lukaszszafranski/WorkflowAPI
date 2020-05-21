@@ -37,6 +37,8 @@
     <Compile Remove="Migrations\20200521151616_CreateDBFinal.Designer.cs" />
     <Compile Remove="Migrations\20200521151855_CreateDBFinal.cs" />
     <Compile Remove="Migrations\20200521151855_CreateDBFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521184433_CreateDatabaseFinalMaybe.cs" />
+    <Compile Remove="Migrations\20200521184433_CreateDatabaseFinalMaybe.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
