@@ -66,7 +66,7 @@ namespace BoardAPI.Repositories
 
         public async Task<Project> FindByIDAsync(int ID)
         {
-            return await System.Threading.Tasks.Task.Run(() => _context.Projects.Where(p => p.ProjectID == ID).ToList().ElementAt(0));
+            return await System.Threading.Tasks.Task.Run(() => _context.Projects.Include(x => x.Columns).ThenInclude(y => y.Tasks).Where(p => p.ProjectID == ID).ToList().ElementAt(0));
         }
 
         public bool IsDbEmpty()
