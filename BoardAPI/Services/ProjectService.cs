@@ -81,5 +81,34 @@ namespace BoardAPI.Services
 
             return new ProjectResponse("Project was updated");
         }
+
+        public async Task<ColumnResponse> SaveAsyncColumn(Column column, int ProjectID)
+        {
+            try
+            {
+                await _projectRepository.AddColumnAsync(column, ProjectID);
+                await _unitOfWork.CompleteAsync();
+
+                return new ColumnResponse(column);
+            }
+            catch (Exception ex)
+            {
+                return new ColumnResponse($"An error occurred when saving the category: {ex.Message}");
+            }
+        }
+
+        public async Task<TaskResponse> SaveAsyncTask(Models.ProjectsModels.Task task, int ColumnID, int ProjectID)
+        {
+            try
+            {
+                await _projectRepository.AddTaskAsync(task, ColumnID, ProjectID);
+                await _unitOfWork.CompleteAsync();
+                return new TaskResponse(task);
+            }
+            catch (Exception ex)
+            {
+                return new TaskResponse($"An error occurred when saving the category: {ex.Message}");
+            }   
+        }
     }
 }

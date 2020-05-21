@@ -19,10 +19,15 @@ namespace BoardAPI.Data
             //            .HasMany(o => o.Members)
             //            .WithOne(i => i.Organization);
 
-            //modelBuilder.Entity<Project>()
-            //            .HasOne(p => p.User)
-            //            .WithOne(i => i.Project)
-            //            .HasForeignKey<User>(x => x.ProjectID);
+            modelBuilder.Entity<Project>()
+                        .HasMany(p => p.Columns)
+                        .WithOne(i => i.Project)
+                        .HasForeignKey(x => x.ProjectID);
+
+            modelBuilder.Entity<Column>()
+                        .HasMany(t => t.Tasks)
+                        .WithOne(i => i.Column)
+                        .HasForeignKey(x => x.ColumnID);
         }
 
         public DbSet<User> Users { get; set; }

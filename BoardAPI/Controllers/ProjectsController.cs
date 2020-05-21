@@ -8,6 +8,7 @@ using BoardAPI.Services;
 using Microsoft.Extensions.Logging;
 using BoardAPI.Resources;
 using BoardAPI.Helpers;
+using static BoardAPI.Resources.ProjectResource;
 
 namespace BoardAPI.Controllers
 {
@@ -96,7 +97,24 @@ namespace BoardAPI.Controllers
                 return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            var result = _projectService.SaveAsync(project);
+            var newProject = _mapper.Map<Project>(project);
+
+            newProject.Columns = new List<Column>()
+            {
+                new Column()
+                {
+                    ColumnName = "TestColumn",
+                    Tasks = new List<Models.ProjectsModels.Task>()
+                    {
+                        new Models.ProjectsModels.Task()
+                        {
+                            Name = "TestTask"
+                        }
+                    }
+                }
+            };
+
+            var result = _projectService.SaveAsync(newProject);
 
             if (!result.Result.Success)
             {
@@ -104,6 +122,58 @@ namespace BoardAPI.Controllers
             }
 
             return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Project, ProjectResource>(result.Result._project)));
+        }
+
+        // POST: api/Projects/id/add-column
+        [HttpPost]
+        [Route("{id}/add-column")]
+        public async Task<IActionResult> PostColumn([FromBody] Column column, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            var newColumn = _mapper.Map<Column>(column);
+
+            newColumn.Tasks = new List<Models.ProjectsModels.Task>()
+            {
+                new Models.ProjectsModels.Task()
+                {
+                    Name = "TestTask"
+                }
+            };
+
+            var result = _projectService.SaveAsyncColumn(newColumn, id);
+
+            if (!result.Result.Success)
+            {
+                return BadRequest(result.Result.Message);
+            }
+
+            return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Column, ColumnResource>(result.Result._column)));
+        }
+
+        // POST: api/Projects/id/add-column
+        [HttpPost]
+        [Route("{ProjectID}/column/{ColumnID}/add-task")]
+        public async Task<IActionResult> PostTask([FromBody] Models.ProjectsModels.Task task, int ProjectID, int ColumnID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            var newTask = _mapper.Map<Models.ProjectsModels.Task>(task);
+
+            var result = _projectService.SaveAsyncTask(task, ProjectID, ColumnID);
+
+            if (!result.Result.Success)
+            {
+                return BadRequest(result.Result.Message);
+            }
+
+            return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Models.ProjectsModels.Task, TaskResource>(result.Result._task)));
         }
 
         // DELETE: api/Projects/5

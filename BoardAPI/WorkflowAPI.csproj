@@ -25,6 +25,18 @@
     <Compile Remove="Migrations\20200511200712_CreateDatabase.Designer.cs" />
     <Compile Remove="Migrations\20200518171328_CreateDatabaseFinal.cs" />
     <Compile Remove="Migrations\20200518171328_CreateDatabaseFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200518171510_CreateDatabaseFinal.cs" />
+    <Compile Remove="Migrations\20200518171510_CreateDatabaseFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521144656_CreateDatabaseMaybeFinal.cs" />
+    <Compile Remove="Migrations\20200521144656_CreateDatabaseMaybeFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521145818_CreateDBFinal.cs" />
+    <Compile Remove="Migrations\20200521145818_CreateDBFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521150904_CreateDBFinal.cs" />
+    <Compile Remove="Migrations\20200521150904_CreateDBFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521151616_CreateDBFinal.cs" />
+    <Compile Remove="Migrations\20200521151616_CreateDBFinal.Designer.cs" />
+    <Compile Remove="Migrations\20200521151855_CreateDBFinal.cs" />
+    <Compile Remove="Migrations\20200521151855_CreateDBFinal.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

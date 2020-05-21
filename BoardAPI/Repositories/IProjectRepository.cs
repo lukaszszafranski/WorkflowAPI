@@ -8,6 +8,9 @@ namespace BoardAPI.Repositories
     {
         Task<IEnumerable<Project>> ListAsync();
         System.Threading.Tasks.Task AddAsync(Project project);
+        System.Threading.Tasks.Task AddColumnAsync(Column column, int ProjectID);
+        System.Threading.Tasks.Task AddTaskAsync(Models.ProjectsModels.Task task, int ColumnID, int ProjectID);
+
         Task<Project> FindByIDAsync(int ID);
         int CountOfProjectData();
         void Remove(Project project);

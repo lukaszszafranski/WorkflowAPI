@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WorkflowAPI.Migrations
 {
     [DbContext(typeof(WorkflowAPIContext))]
-    [Migration("20200518171510_CreateDatabaseFinal")]
-    partial class CreateDatabaseFinal
+    [Migration("20200521184433_CreateDatabaseFinalMaybe")]
+    partial class CreateDatabaseFinalMaybe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace WorkflowAPI.Migrations
 
                     b.Property<string>("ColumnName");
 
-                    b.Property<int?>("ProjectID");
+                    b.Property<int>("ProjectID");
 
                     b.HasKey("ColumnID");
 
@@ -70,7 +70,7 @@ namespace WorkflowAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ColumnID");
+                    b.Property<int>("ColumnID");
 
                     b.Property<string>("Name");
 
@@ -104,16 +104,18 @@ namespace WorkflowAPI.Migrations
 
             modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Column", b =>
                 {
-                    b.HasOne("BoardAPI.Models.ProjectsModels.Project")
+                    b.HasOne("BoardAPI.Models.ProjectsModels.Project", "Project")
                         .WithMany("Columns")
-                        .HasForeignKey("ProjectID");
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Task", b =>
                 {
-                    b.HasOne("BoardAPI.Models.ProjectsModels.Column")
+                    b.HasOne("BoardAPI.Models.ProjectsModels.Column", "Column")
                         .WithMany("Tasks")
-                        .HasForeignKey("ColumnID");
+                        .HasForeignKey("ColumnID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

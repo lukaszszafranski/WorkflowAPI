@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WorkflowAPI.Migrations
 {
-    public partial class CreateDatabaseFinal : Migration
+    public partial class CreateDatabaseFinalMaybe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,7 +58,7 @@ namespace WorkflowAPI.Migrations
                     ColumnID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ColumnName = table.Column<string>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
+                    ProjectID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,7 +68,7 @@ namespace WorkflowAPI.Migrations
                         column: x => x.ProjectID,
                         principalTable: "Projects",
                         principalColumn: "ProjectID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +78,7 @@ namespace WorkflowAPI.Migrations
                     TaskID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    ColumnID = table.Column<int>(nullable: true)
+                    ColumnID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +88,7 @@ namespace WorkflowAPI.Migrations
                         column: x => x.ColumnID,
                         principalTable: "Column",
                         principalColumn: "ColumnID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
