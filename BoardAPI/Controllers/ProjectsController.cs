@@ -54,7 +54,7 @@ namespace BoardAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(ProjectData);
+            return Ok(_mapper.Map<Project, ProjectResource>(ProjectData));
         }
 
         // PUT: api/Projects/5
@@ -66,7 +66,7 @@ namespace BoardAPI.Controllers
                 return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
 
-            if (id != project.ProjectID)
+            if (_projectService.FindByIDAsync(id).Result == null)
             {
                 return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
             }
