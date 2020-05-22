@@ -1,4 +1,4 @@
-<h1>BoardAPI</h1>
+<h1>WorkflowAPI</h1>
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
