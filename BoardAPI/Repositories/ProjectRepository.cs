@@ -84,6 +84,47 @@ namespace BoardAPI.Repositories
             _context.Projects.Remove(project);
         }
 
+        public System.Threading.Tasks.Task RemoveColumn(int projectID, int columnID)
+        {
+            var project = _context.Projects.Include(x => x.Columns)
+                                           .ThenInclude(y => y.Tasks)
+                                           .Where(x => x.ProjectID == projectID)
+                                           .ToList()
+                                           .ElementAt(0);
+
+            var columnToRemove = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+
+            var listOfColumns = project.Columns.ToList();
+            listOfColumns.Remove(columnToRemove);
+
+            project.Columns = listOfColumns;
+
+            _context.Projects.Update(project);
+            return System.Threading.Tasks.Task.Run(() => _context.SaveChanges());
+        }
+
+        public System.Threading.Tasks.Task RemoveTask(int id, int columnID, int taskID)
+        {
+            var project = _context.Projects.Include(x => x.Columns)
+                                                       .ThenInclude(y => y.Tasks)
+                                                       .Where(x => x.ProjectID == id)
+                                                       .ToList()
+                                                       .ElementAt(0);
+
+            var column = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+            var listOfTasks = column.Tasks.ToList();
+
+            var taskByIDFromColumn = column.Tasks.Where(x => x.TaskID == taskID).ToList().ElementAt(0);
+            listOfTasks.Remove(taskByIDFromColumn);
+
+            var tasksInProject = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+
+            tasksInProject.Tasks = listOfTasks;
+
+            _context.Projects.Update(project);
+            return System.Threading.Tasks.Task.Run(() => _context.SaveChanges());
+        }
+
         public bool SpecificProjectExists(int ID)
         {
             return _context.Projects.Any(p => p.ProjectID == ID);
@@ -105,6 +146,37 @@ namespace BoardAPI.Repositories
 
             // update project properties
             project.Title = projectParam.Title;
+
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+        }
+
+        public void UpdateColumn(Column editColumn, int projectID, int columnID)
+        {
+            var project = _context.Projects.Find(projectID);
+            var columnWithID = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+
+            if (project == null)
+                throw new AppException("Project not found");
+
+            // update project properties
+            columnWithID.ColumnName = editColumn.ColumnName;
+
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+        }
+
+        public void UpdateTask(Models.ProjectsModels.Task editTask, int id, int columnID, int taskID)
+        {
+            var project = _context.Projects.Find(id);
+            var columnWithID = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+            var taskWithID = columnWithID.Tasks.Where(x => x.TaskID == taskID).ToList().ElementAt(0);
+
+            if (project == null)
+                throw new AppException("Project not found");
+
+            // update project properties
+            taskWithID.Name = editTask.Name;
 
             _context.Projects.Update(project);
             _context.SaveChanges();

@@ -18,5 +18,9 @@ namespace BoardAPI.Services
         bool IsDbEmpty();
         bool SpecificProjectDataExists(int ID);
         ProjectResponse Update(Project project);
+        Task<ColumnResponse> DeleteColumnAsync(int id, int columnID);
+        Task<TaskResponse> DeleteTaskAsync(int id, int columnID, int taskID);
+        ColumnResponse UpdateColumn(Column editProject, int projectID, int columnID);
+        TaskResponse UpdateTask(Models.ProjectsModels.Task editProject, int id, int columnID, int taskID);
     }
 }

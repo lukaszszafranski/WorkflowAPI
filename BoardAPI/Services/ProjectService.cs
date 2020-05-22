@@ -46,7 +46,7 @@ namespace BoardAPI.Services
 
             if (existingProjectData == null)
             {
-                return new ProjectResponse("Symbol not found");
+                return new ProjectResponse("Project not found");
             }
 
             try
@@ -109,6 +109,64 @@ namespace BoardAPI.Services
             {
                 return new TaskResponse($"An error occurred when saving the category: {ex.Message}");
             }   
+        }
+
+        public async Task<ColumnResponse> DeleteColumnAsync(int id, int columnID)
+        {
+            var existingProjectData = await _projectRepository.FindByIDAsync(id);
+
+            if (existingProjectData == null)
+            {
+                return new ColumnResponse("Project not found");
+            }
+
+            try
+            {
+                await _projectRepository.RemoveColumn(id, columnID);
+                await _unitOfWork.CompleteAsync();
+
+                return new ColumnResponse("Column was removed!");
+            }
+            catch (Exception ex)
+            {
+                return new ColumnResponse($"An error occurred when deleting the category: {ex.Message}");
+            }
+        }
+
+        public async Task<TaskResponse> DeleteTaskAsync(int id, int columnID, int taskID)
+        {
+            var existingProjectData = await _projectRepository.FindByIDAsync(id);
+
+            if (existingProjectData == null)
+            {
+                return new TaskResponse("Project not found");
+            }
+
+            try
+            {
+                await _projectRepository.RemoveTask(id, columnID, taskID);
+                await _unitOfWork.CompleteAsync();
+
+                return new TaskResponse("Task was removed!");
+            }
+            catch (Exception ex)
+            {
+                return new TaskResponse($"An error occurred when deleting the category: {ex.Message}");
+            }
+        }
+
+        public ColumnResponse UpdateColumn(Column editColumn, int columnID, int projectID)
+        {
+            _projectRepository.UpdateColumn(editColumn, projectID, columnID);
+
+            return new ColumnResponse("Column was updated");
+        }
+
+        public TaskResponse UpdateTask(Models.ProjectsModels.Task editTask, int id, int columnID, int taskID)
+        {
+            _projectRepository.UpdateTask(editTask, id, columnID, taskID);
+
+            return new TaskResponse("Task was updated");
         }
     }
 }

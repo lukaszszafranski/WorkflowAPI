@@ -88,6 +88,68 @@ namespace BoardAPI.Controllers
             }
         }
 
+        // PUT: api/Projects/5/columns/2
+        [HttpPut("{id}/column/{columnID}")]
+        public IActionResult PutColumn([FromRoute] int id, [FromRoute] int columnID, [FromBody] Column column)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            if (_projectService.FindByIDAsync(id).Result == null)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            // map model to entity and set id
+            var editColumn = _mapper.Map<Column>(column);
+            editColumn.ColumnID = columnID;
+
+            try
+            {
+                // update project 
+                _projectService.UpdateColumn(editColumn, id, columnID);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // PUT: api/Projects/5/column/2/task/3
+        [HttpPut("{id}/column/{columnID}/task/{taskID}")]
+        public IActionResult PutTask([FromRoute] int id, [FromRoute] int columnID, [FromRoute] int taskID, [FromBody] Models.ProjectsModels.Task task)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            if (_projectService.FindByIDAsync(id).Result == null)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            // map model to entity and set id
+            var editTask = _mapper.Map<Models.ProjectsModels.Task>(task);
+            editTask.TaskID = taskID;
+
+            try
+            {
+                // update project 
+                _projectService.UpdateTask(editTask, id, columnID, taskID);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         // POST: api/Projects
         [HttpPost]
         public async Task<IActionResult> PostProject([FromBody] Project project)
@@ -124,7 +186,7 @@ namespace BoardAPI.Controllers
             return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Project, ProjectResource>(result.Result._project)));
         }
 
-        // POST: api/Projects/id/add-column
+        // POST: api/Projects/5/add-column
         [HttpPost]
         [Route("{id}/add-column")]
         public async Task<IActionResult> PostColumn([FromBody] Column column, int id)
@@ -154,7 +216,7 @@ namespace BoardAPI.Controllers
             return await System.Threading.Tasks.Task.Run(() => Ok(_mapper.Map<Column, ColumnResource>(result.Result._column)));
         }
 
-        // POST: api/Projects/id/add-column
+        // POST: api/Projects/5/column/2/add-task
         [HttpPost]
         [Route("{ProjectID}/column/{ColumnID}/add-task")]
         public async Task<IActionResult> PostTask([FromBody] Models.ProjectsModels.Task task, int ProjectID, int ColumnID)
@@ -195,6 +257,50 @@ namespace BoardAPI.Controllers
             var projectResource = _mapper.Map<Project, ProjectResource>(result._project);
 
             return Ok(projectResource);
+        }
+
+        // DELETE: api/Projects/5/column/2
+        [HttpDelete]
+        [Route("{id}/column/{columnID}")]
+        public async Task<IActionResult> DeleteColumn([FromRoute] int id, [FromRoute] int columnID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            var result = await _projectService.DeleteColumnAsync(id, columnID);
+
+            if (!result.Message.Contains("Column was removed!"))
+            {
+                return BadRequest(result.Message);
+            }
+
+            var columnResource = _mapper.Map<Column, ColumnResource>(result._column);
+
+            return Ok(columnResource);
+        }
+
+        // DELETE: api/Projects/5/column/2/task/1
+        [HttpDelete]
+        [Route("{id}/column/{columnID}/task/{taskID}")]
+        public async Task<IActionResult> DeleteTask([FromRoute] int id, [FromRoute] int columnID, [FromRoute] int taskID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage).ToList());
+            }
+
+            var result = await _projectService.DeleteTaskAsync(id, columnID, taskID);
+
+            if (!result.Message.Contains("Task was removed!"))
+            {
+                return BadRequest(result.Message);
+            }
+
+            var columnResource = _mapper.Map<Models.ProjectsModels.Task, TaskResource>(result._task);
+
+            return Ok(columnResource);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace BoardAPI.Repositories
         bool IsDbEmpty();
         bool SpecificProjectExists(int ID);
         void Update(Project project);
-
+        System.Threading.Tasks.Task RemoveColumn(int projectID, int columnID);
+        System.Threading.Tasks.Task RemoveTask(int id, int columnID, int taskID);
+        void UpdateColumn(Column editProject, int projectID, int columnID);
+        void UpdateTask(Models.ProjectsModels.Task editProject, int id, int columnID, int taskID);
     }
 }
