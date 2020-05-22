@@ -1,7 +1,4 @@
-﻿using BoardAPI.Models.OrganizationsModels;
-using BoardAPI.Models.UserModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BoardAPI.Models.ProjectsModels
 {

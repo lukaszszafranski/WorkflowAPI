@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System.Threading.Tasks;
 
 namespace WorkflowAPI.Chat

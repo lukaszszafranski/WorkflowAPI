@@ -1,7 +1,4 @@
-﻿using BoardAPI.Models.OrganizationsModels;
-using BoardAPI.Models.ProjectsModels;
-
-namespace BoardAPI.Models.UserModels
+﻿namespace BoardAPI.Models.UserModels
 {
     public class User
     {
