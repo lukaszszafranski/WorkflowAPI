@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WorkflowAPI.Migrations
 {
     [DbContext(typeof(WorkflowAPIContext))]
-    [Migration("20200521190002_CreateDatabaseFinalMaybeMaybe")]
-    partial class CreateDatabaseFinalMaybeMaybe
+    [Migration("20200522165419_FinalDatabaseCreation")]
+    partial class FinalDatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

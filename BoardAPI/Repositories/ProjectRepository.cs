@@ -153,7 +153,7 @@ namespace BoardAPI.Repositories
 
         public void UpdateColumn(Column editColumn, int projectID, int columnID)
         {
-            var project = _context.Projects.Find(projectID);
+            var project = FindByIDAsync(projectID).Result;
             var columnWithID = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
 
             if (project == null)

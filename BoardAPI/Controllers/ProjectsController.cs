@@ -109,7 +109,7 @@ namespace BoardAPI.Controllers
             try
             {
                 // update project 
-                _projectService.UpdateColumn(editColumn, id, columnID);
+                _projectService.UpdateColumn(editColumn, columnID, id);
                 return Ok();
             }
             catch (AppException ex)
