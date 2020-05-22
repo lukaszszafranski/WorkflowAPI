@@ -38,7 +38,7 @@ To get a local copy up and running follow these simple steps:
 #### For Local
 1. Clone the repo
 ```sh
-git clone https://github.com/ProjektyGrupowe/WorkflowAPI.git
+git clone https://github.com/lukaszszafranski/WorkflowAPI.git
 ```
 
 <!-- USAGE EXAMPLES -->
