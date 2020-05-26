@@ -18,6 +18,12 @@ namespace BoardAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<OrganizationsController> _logger;
 
+        public OrganizationsController(IOrganizationService organizationService, IMapper mapper)
+        {
+            _organizationService = organizationService;
+            _mapper = mapper;
+        }
+
         public OrganizationsController(IOrganizationService organizationService, IMapper mapper, ILogger<OrganizationsController> logger)
         {
             _organizationService = organizationService;

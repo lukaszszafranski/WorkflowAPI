@@ -26,7 +26,11 @@ namespace BoardAPI.Controllers
         private readonly AppSettings _appSettings;
         private readonly ILogger<UsersController> _logger;
 
-
+        public UsersController(IUserService userService, IMapper mapper)
+        {
+            _userService = userService;
+            _mapper = mapper;
+        }
         public UsersController(IUserService userService, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UsersController> logger)
         {
             _userService = userService;
