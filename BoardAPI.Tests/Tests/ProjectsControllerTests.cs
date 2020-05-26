@@ -24,7 +24,7 @@ namespace WorkflowAPI.Tests.Tests
             _service = new ProjectServiceFake();
             _controller = new ProjectsController(_service, _mapper);
         }
-        
+
         [Test]
         public void Get_WhenCalled_ReturnsCorrectItems()
         {
@@ -64,5 +64,7 @@ namespace WorkflowAPI.Tests.Tests
             // Assert
             Assert.That(result, Is.EqualTo(3));
         }
+
+
     }
 }
