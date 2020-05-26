@@ -25,7 +25,7 @@ namespace WorkflowAPI.Tests.Tests
         public void setUpTests()
         {
             URL = "https://workflowui.azurewebsites.net/";
-            login = "TestSelenium11";
+            login = "TestSelenium12";
 
             driver = new ChromeDriver(Directory.GetCurrentDirectory());
         }
