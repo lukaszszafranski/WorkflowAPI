@@ -1,4 +1,5 @@
-﻿using BoardAPI.Models.ProjectsModels;
+﻿using BoardAPI.Helpers;
+using BoardAPI.Models.ProjectsModels;
 using BoardAPI.Services;
 using BoardAPI.Services.Communication;
 using System;
@@ -185,17 +186,34 @@ namespace WorkflowAPI.Tests.Fakers
 
         public Task<ColumnResponse> DeleteColumnAsync(int id, int columnID)
         {
-            throw new NotImplementedException();
+            var existingProjectData = _projects.First(p => p.ProjectID == id);
+            var columns = existingProjectData.Columns.ToList();
+            var existingColumn = existingProjectData.Columns.First(c => c.ColumnID == columnID);
+
+            columns.Remove(existingColumn);
+
+            existingProjectData.Columns = columns;
+
+            return System.Threading.Tasks.Task.Run(() => new ColumnResponse(existingColumn));
         }
 
         public Task<TaskResponse> DeleteTaskAsync(int id, int columnID, int taskID)
         {
-            throw new NotImplementedException();
+            var existingProjectData = _projects.First(p => p.ProjectID == id);
+            var existingColumn = existingProjectData.Columns.First(c => c.ColumnID == columnID);
+            var tasks = existingColumn.Tasks.ToList();
+            var existingTask = existingColumn.Tasks.First(t => t.TaskID == taskID);
+
+            tasks.Remove(existingTask);
+
+            existingColumn.Tasks = tasks;
+
+            return System.Threading.Tasks.Task.Run(() => new TaskResponse(existingTask));
         }
 
         public Task<Project> FindByIDAsync(int ID)
         {
-            throw new NotImplementedException();
+            return System.Threading.Tasks.Task.Run(() => _projects.First(p => p.ProjectID == ID));
         }
 
         public bool IsDbEmpty()
@@ -210,17 +228,27 @@ namespace WorkflowAPI.Tests.Fakers
 
         public Task<ProjectResponse> SaveAsync(Project project)
         {
+            _projects.Add(project);
             return System.Threading.Tasks.Task.Run(() => new ProjectResponse(project));
         }
 
         public Task<ColumnResponse> SaveAsyncColumn(Column column, int ProjectID)
         {
-            throw new NotImplementedException();
+            var existingColumnsInProject = _projects.First(p => p.ProjectID == ProjectID).Columns.ToList();
+            existingColumnsInProject.Add(column);
+            
+            return System.Threading.Tasks.Task.Run(() => new ColumnResponse(column));
         }
 
         public Task<TaskResponse> SaveAsyncTask(BoardAPI.Models.ProjectsModels.Task task, int ColumnID, int ProjectID)
         {
-            throw new NotImplementedException();
+            var existingProject = _projects.First(p => p.ProjectID == ProjectID);
+            var existingColumn = existingProject.Columns.First(c => c.ColumnID == ColumnID);
+            var existingTasks = existingColumn.Tasks.ToList();
+
+            existingTasks.Add(task);
+
+            return System.Threading.Tasks.Task.Run(() => new TaskResponse(task));
         }
 
         public bool SpecificProjectDataExists(int ID)
@@ -230,17 +258,51 @@ namespace WorkflowAPI.Tests.Fakers
 
         public ProjectResponse Update(Project project)
         {
-            throw new NotImplementedException();
+            var searchedProject = _projects.First(p => p.ProjectID == project.ProjectID);
+
+            if (searchedProject == null)
+                throw new AppException("Project not found");
+
+            if (searchedProject.Title != project.Title)
+            {
+                // project title has changed so check if the new title is already taken
+                if (_projects.Any(x => x.Title == project.Title))
+                    throw new AppException("Title " + project.Title + " is already taken");
+            }
+
+            // update project properties
+            searchedProject.Title = project.Title;
+
+            return new ProjectResponse("Project was updated");
         }
 
-        public ColumnResponse UpdateColumn(Column editProject, int projectID, int columnID)
+        public ColumnResponse UpdateColumn(Column editColumn, int projectID, int columnID)
         {
-            throw new NotImplementedException();
+            var project = FindByIDAsync(projectID).Result;
+            var columnWithID = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+
+            if (project == null)
+                throw new AppException("Project not found");
+
+            // update project properties
+            columnWithID.ColumnName = editColumn.ColumnName;
+
+            return new ColumnResponse("Column was updated");
         }
 
-        public TaskResponse UpdateTask(BoardAPI.Models.ProjectsModels.Task editProject, int id, int columnID, int taskID)
+        public TaskResponse UpdateTask(BoardAPI.Models.ProjectsModels.Task editTask, int id, int columnID, int taskID)
         {
-            throw new NotImplementedException();
+            var project = _projects.First(p => p.ProjectID == id);
+            var columnWithID = project.Columns.Where(x => x.ColumnID == columnID).ToList().ElementAt(0);
+            var taskWithID = columnWithID.Tasks.Where(x => x.TaskID == taskID).ToList().ElementAt(0);
+
+            if (project == null)
+                throw new AppException("Project not found");
+
+            // update project properties
+            taskWithID.Name = editTask.Name;
+
+            return new TaskResponse("Task was updated");
         }
     }
 }

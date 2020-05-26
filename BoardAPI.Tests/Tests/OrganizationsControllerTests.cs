@@ -55,7 +55,7 @@ namespace WorkflowAPI.Tests.Tests
         public void OrganizationsCount_GetCount()
         {
             // Act
-            var result = _service.CountOfStockData();
+            var result = _service.CountOfOrganizationData();
             // Assert
             Assert.That(result, Is.EqualTo(1));
         }

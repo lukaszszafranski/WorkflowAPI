@@ -70,7 +70,7 @@ namespace BoardAPI.Services
             return _organizationRepository.SpecificOrganizationDataExists(ID);
         }
 
-        public int CountOfStockData()
+        public int CountOfOrganizationData()
         {
             return _organizationRepository.CountOfOrganizationData();
         }

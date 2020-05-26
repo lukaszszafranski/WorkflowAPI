@@ -11,7 +11,7 @@ namespace BoardAPI.Services
         Task<OrganizationResponse> SaveAsync(Organization organization);
         Task<Organization> FindByIDAsync(int ID);
         Task<OrganizationResponse> DeleteAsync(int ID);
-        int CountOfStockData();
+        int CountOfOrganizationData();
         bool IsDbEmpty();
         bool SpecificOrganizationDataExists(int ID);
     }

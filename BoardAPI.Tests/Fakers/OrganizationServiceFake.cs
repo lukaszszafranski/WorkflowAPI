@@ -23,7 +23,7 @@ namespace WorkflowAPI.Tests.Fakers
             };
         }
 
-        public int CountOfStockData()
+        public int CountOfOrganizationData()
         {
             return _organizations.Count();
         }
