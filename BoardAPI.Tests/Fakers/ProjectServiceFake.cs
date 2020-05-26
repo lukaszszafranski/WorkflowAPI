@@ -170,7 +170,7 @@ namespace WorkflowAPI.Tests.Fakers
             };
         }
 
-        public int CountOfStockData()
+        public int CountOfProjectData()
         {
             return _projects.Count;
         }

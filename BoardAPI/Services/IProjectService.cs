@@ -14,7 +14,7 @@ namespace BoardAPI.Services
 
         Task<Project> FindByIDAsync(int ID);
         Task<ProjectResponse> DeleteAsync(int ID);
-        int CountOfStockData();
+        int CountOfProjectData();
         bool IsDbEmpty();
         bool SpecificProjectDataExists(int ID);
         ProjectResponse Update(Project project);

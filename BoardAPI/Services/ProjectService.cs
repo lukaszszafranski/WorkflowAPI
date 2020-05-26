@@ -70,7 +70,7 @@ namespace BoardAPI.Services
             return _projectRepository.SpecificProjectExists(ID);
         }
 
-        public int CountOfStockData()
+        public int CountOfProjectData()
         {
             return _projectRepository.CountOfProjectData();
         }
