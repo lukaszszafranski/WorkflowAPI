@@ -107,6 +107,7 @@ namespace WorkflowAPI.Tests.Tests
         {
             // Act
             var result = _service.SpecificOrganizationDataExists(1231);
+
             // Assert
             Assert.IsFalse(result);
         }
@@ -153,6 +154,7 @@ namespace WorkflowAPI.Tests.Tests
         {
             // Act
             var result = _service.FindByIDAsync(1).Result;
+
             // Assert
             Assert.IsInstanceOf<Organization>(result);
         }
@@ -173,8 +175,10 @@ namespace WorkflowAPI.Tests.Tests
                 OrganizationID = 2,
                 OrganizationName = "Organization2"
             };
-            //Act
+
+            // Act
             var result = _service.SaveAsync(organization).Result;
+
             // Assert
             Assert.That(_service.ListAsync().Result.Count(), Is.EqualTo(2));
         }
@@ -189,13 +193,11 @@ namespace WorkflowAPI.Tests.Tests
                 OrganizationName = "Organization1"
             };
 
+            // Act
             var result = _service.SaveAsync(organization).Result;
 
             // Assert
             Assert.IsInstanceOf<OrganizationResponse>(result);
         }
-
-
-
     }
 }
