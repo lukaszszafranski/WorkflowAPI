@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BoardAPI.Models.OrganizationsModels;
 using BoardAPI.Services;
@@ -8,22 +9,30 @@ namespace WorkflowAPI.Tests.Fakers
 {
     public class OrganizationServiceFake : IOrganizationService
     {
+        private readonly List<Organization> _organizations;
+
         public OrganizationServiceFake()
         {
-            new Organization()
+            _organizations = new List<Organization>()
             {
-
+                new Organization()
+                {
+                    OrganizationID = 1,
+                    OrganizationName = "Organization1"
+                },
             };
         }
 
         public int CountOfStockData()
         {
-            throw new System.NotImplementedException();
+            return _organizations.Count();
         }
 
         public Task<OrganizationResponse> DeleteAsync(int ID)
         {
-            throw new System.NotImplementedException();
+            var removeItem = _organizations.First(o => o.OrganizationID == ID);
+            _organizations.Remove(removeItem);
+            return Task.Run(() => new OrganizationResponse(removeItem));
         }
 
         public Task<Organization> FindByIDAsync(int ID)
@@ -33,12 +42,12 @@ namespace WorkflowAPI.Tests.Fakers
 
         public bool IsDbEmpty()
         {
-            throw new System.NotImplementedException();
+            return !_organizations.Any();
         }
 
         public Task<IEnumerable<Organization>> ListAsync()
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() => _organizations.AsEnumerable());
         }
 
         public Task<OrganizationResponse> SaveAsync(Organization organization)
@@ -48,7 +57,7 @@ namespace WorkflowAPI.Tests.Fakers
 
         public bool SpecificOrganizationDataExists(int ID)
         {
-            throw new System.NotImplementedException();
+            return _organizations.Select(o => o.OrganizationID == ID).ToList().ElementAt(0);
         }
     }
 }
