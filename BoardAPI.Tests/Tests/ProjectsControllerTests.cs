@@ -22,9 +22,7 @@ namespace WorkflowAPI.Tests.Tests
     [TestFixture]
     public class ProjectsControllerTests
     {
-        ProjectsController _controller;
         IProjectService _service;
-        IMapper _mapper;
 
         [OneTimeSetUp]
         public void setUp()

@@ -21,9 +21,7 @@ namespace WorkflowAPI.Tests.Tests
     [TestFixture]
     public class OrganizationsControllerTests
     {
-        OrganizationsController _controller;
         IOrganizationService _service;
-        IMapper _mapper;
 
         [OneTimeSetUp]
         public void setUp()

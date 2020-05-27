@@ -21,10 +21,7 @@ namespace WorkflowAPI.Tests.Tests
     [TestFixture]
     public class UsersControllerTests
     {
-        UsersController _controller;
         IUserService _service;
-        IMapper _mapper;
-
 
         [SetUp]
         public void setUpTests()
