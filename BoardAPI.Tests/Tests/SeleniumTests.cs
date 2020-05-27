@@ -25,7 +25,7 @@ namespace WorkflowAPI.Tests.Tests
         public void setUpTests()
         {
             URL = "https://workflowui.azurewebsites.net/";
-            login = "TestSelenium11";
+            login = "TestSelenium12";
 
             driver = new ChromeDriver(Directory.GetCurrentDirectory());
         }
@@ -213,9 +213,13 @@ namespace WorkflowAPI.Tests.Tests
             IWebElement addProjectButton = driver.FindElement(By.XPath("//*[@id='overviewPill']/div/button"));
             addProjectButton.Click();
 
+            System.Threading.Thread.Sleep(5000);
+
             IWebElement projectName = driver.FindElement(By.XPath("//*[@id='exampleModalCenter']/div/div/div[2]/form/div[1]/input"));
-            projectName.SendKeys("Test Project 1");
+            projectName.SendKeys("Test Project 2");
             projectName.Submit();
+
+            System.Threading.Thread.Sleep(5000);
 
             IWebElement closeButton = driver.FindElement(By.XPath("//*[@id='exampleModalCenter']/div/div/div[2]/form/div[2]/button[1]"));
             closeButton.Click();

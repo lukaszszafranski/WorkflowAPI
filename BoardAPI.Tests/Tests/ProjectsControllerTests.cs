@@ -530,7 +530,5 @@ namespace WorkflowAPI.Tests.Tests
             // Assert
             Assert.ThrowsAsync<InvalidOperationException>(() => _service.DeleteAsync(1234));
         }
-
-
     }
 }

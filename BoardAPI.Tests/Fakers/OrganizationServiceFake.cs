@@ -37,7 +37,7 @@ namespace WorkflowAPI.Tests.Fakers
 
         public Task<Organization> FindByIDAsync(int ID)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() => _organizations.First(o => o.OrganizationID == ID));
         }
 
         public bool IsDbEmpty()
@@ -52,7 +52,8 @@ namespace WorkflowAPI.Tests.Fakers
 
         public Task<OrganizationResponse> SaveAsync(Organization organization)
         {
-            throw new System.NotImplementedException();
+            _organizations.Add(organization);
+            return Task.Run(() => new OrganizationResponse(organization));
         }
 
         public bool SpecificOrganizationDataExists(int ID)
