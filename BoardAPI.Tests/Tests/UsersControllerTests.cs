@@ -30,7 +30,6 @@ namespace WorkflowAPI.Tests.Tests
         public void setUpTests()
         {
             _service = new UserServiceFake();
-            _controller = new UsersController(_service, _mapper);
         }
 
         [Test]

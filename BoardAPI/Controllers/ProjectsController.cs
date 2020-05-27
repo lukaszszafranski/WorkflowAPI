@@ -27,12 +27,6 @@ namespace BoardAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<ProjectsController> _logger;
 
-        public ProjectsController(IProjectService projectService, IMapper mapper)
-        {
-            _projectService = projectService;
-            _mapper = mapper;
-        }
-
         public ProjectsController(IProjectService projectService, IMapper mapper, ILogger<ProjectsController> logger)
         {
             _projectService = projectService;

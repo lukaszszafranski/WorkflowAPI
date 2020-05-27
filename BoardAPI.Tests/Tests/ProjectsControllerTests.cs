@@ -26,10 +26,10 @@ namespace WorkflowAPI.Tests.Tests
         IProjectService _service;
         IMapper _mapper;
 
-        public ProjectsControllerTests()
+        [OneTimeSetUp]
+        public void setUp()
         {
             _service = new ProjectServiceFake();
-            _controller = new ProjectsController(_service, _mapper);
         }
 
         [Test]

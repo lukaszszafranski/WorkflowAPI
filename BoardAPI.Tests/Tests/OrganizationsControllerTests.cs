@@ -25,10 +25,10 @@ namespace WorkflowAPI.Tests.Tests
         IOrganizationService _service;
         IMapper _mapper;
 
-        public OrganizationsControllerTests()
+        [OneTimeSetUp]
+        public void setUp()
         {
             _service = new OrganizationServiceFake();
-            _controller = new OrganizationsController(_service, _mapper);
         }
 
         [Test]
