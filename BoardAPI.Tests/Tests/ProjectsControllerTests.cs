@@ -11,12 +11,10 @@ using BoardAPI.Helpers;
 using BoardAPI.Models.ProjectsModels;
 using BoardAPI.Services;
 using BoardAPI.Services.Communication;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WorkflowAPI.Tests.Fakers;
 
 namespace WorkflowAPI.Tests.Tests

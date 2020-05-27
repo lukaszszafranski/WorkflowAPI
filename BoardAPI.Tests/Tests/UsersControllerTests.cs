@@ -11,7 +11,6 @@ using BoardAPI.Helpers;
 using BoardAPI.Models.UserModels;
 using BoardAPI.Services;
 using BoardAPI.Services.Communication;
-using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

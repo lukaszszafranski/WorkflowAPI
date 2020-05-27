@@ -10,7 +10,6 @@ using BoardAPI.Controllers;
 using BoardAPI.Models.OrganizationsModels;
 using BoardAPI.Services;
 using BoardAPI.Services.Communication;
-using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

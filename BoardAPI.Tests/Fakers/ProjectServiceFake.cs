@@ -9,10 +9,8 @@ using BoardAPI.Helpers;
 using BoardAPI.Models.ProjectsModels;
 using BoardAPI.Services;
 using BoardAPI.Services.Communication;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WorkflowAPI.Tests.Fakers
