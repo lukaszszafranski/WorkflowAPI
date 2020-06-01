@@ -51,5 +51,5 @@ For usage examples please refer to the [Live Documentation in API](https://workf
 ## WWW
 https://workflowapi2020.azurewebsites.net/
 
-## Design Document
+## Documentation
 https://docs.google.com/document/d/1tpDOvnk2pOgKiGyWv67dbtkNvh2Kq3ow-ja4Bn4SdpY/edit?pli=1#
