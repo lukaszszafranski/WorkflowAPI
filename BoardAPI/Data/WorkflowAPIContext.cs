@@ -35,10 +35,17 @@ namespace BoardAPI.Data
                         .HasMany(t => t.Tasks)
                         .WithOne(i => i.Column)
                         .HasForeignKey(x => x.ColumnID);
+
+            modelBuilder.Entity<Timesheet>()
+                        .HasMany(t => t.TimesheetDetails)
+                        .WithOne(i => i.Timesheet)
+                        .HasForeignKey(x => x.TimesheetID);
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<Timesheet> Timesheet { get; set; }
     }
 }

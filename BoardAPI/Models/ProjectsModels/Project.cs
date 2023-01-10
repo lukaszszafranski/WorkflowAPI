@@ -14,5 +14,6 @@ namespace BoardAPI.Models.ProjectsModels
         public int ProjectID { get; set; }
         public string Title { get; set; }
         public IEnumerable<Column> Columns { get; set; }
+        public IEnumerable<Timesheet> Timesheets { get; set; }
     }
 }
