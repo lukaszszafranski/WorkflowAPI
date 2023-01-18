@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WorkflowAPI.Migrations
 {
     [DbContext(typeof(WorkflowAPIContext))]
-    [Migration("20200522165419_FinalDatabaseCreation")]
-    partial class FinalDatabaseCreation
+    [Migration("20230117224735_DatabaseCreation")]
+    partial class DatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,6 +81,70 @@ namespace WorkflowAPI.Migrations
                     b.ToTable("Task");
                 });
 
+            modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Timesheet", b =>
+                {
+                    b.Property<int>("TimesheetID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<int>("Month");
+
+                    b.Property<string>("TimesheetStatus");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("TimesheetID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Timesheet");
+                });
+
+            modelBuilder.Entity("BoardAPI.Models.ProjectsModels.TimesheetDetails", b =>
+                {
+                    b.Property<int>("TimesheetDetailsID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Day");
+
+                    b.Property<int?>("ProjectID");
+
+                    b.Property<int?>("RegisteredHours");
+
+                    b.Property<int>("TimesheetID");
+
+                    b.HasKey("TimesheetDetailsID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.HasIndex("TimesheetID");
+
+                    b.ToTable("TimesheetDetails");
+                });
+
+            modelBuilder.Entity("BoardAPI.Models.UserModels.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("BoardAPI.Models.UserModels.User", b =>
                 {
                     b.Property<int>("Id")
@@ -115,6 +179,34 @@ namespace WorkflowAPI.Migrations
                     b.HasOne("BoardAPI.Models.ProjectsModels.Column", "Column")
                         .WithMany("Tasks")
                         .HasForeignKey("ColumnID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Timesheet", b =>
+                {
+                    b.HasOne("BoardAPI.Models.UserModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardAPI.Models.ProjectsModels.TimesheetDetails", b =>
+                {
+                    b.HasOne("BoardAPI.Models.ProjectsModels.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectID");
+
+                    b.HasOne("BoardAPI.Models.ProjectsModels.Timesheet", "Timesheet")
+                        .WithMany("TimesheetDetails")
+                        .HasForeignKey("TimesheetID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardAPI.Models.UserModels.Role", b =>
+                {
+                    b.HasOne("BoardAPI.Models.UserModels.User", "User")
+                        .WithOne("Role")
+                        .HasForeignKey("BoardAPI.Models.UserModels.Role", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

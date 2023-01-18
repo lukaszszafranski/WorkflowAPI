@@ -85,23 +85,17 @@ namespace WorkflowAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<DateTime?>("CreatedOn");
 
-                    b.Property<DateTime>("FromDate");
-
-                    b.Property<int>("ProjectID");
-
-                    b.Property<int>("TimeRegistrated");
+                    b.Property<int>("Month");
 
                     b.Property<string>("TimesheetStatus");
 
-                    b.Property<DateTime>("ToDate");
-
                     b.Property<int>("UserId");
 
-                    b.HasKey("TimesheetID");
+                    b.Property<int>("Year");
 
-                    b.HasIndex("ProjectID");
+                    b.HasKey("TimesheetID");
 
                     b.HasIndex("UserId");
 
@@ -114,17 +108,17 @@ namespace WorkflowAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Day");
+                    b.Property<int?>("Day");
 
-                    b.Property<int>("Month");
+                    b.Property<int?>("ProjectID");
 
-                    b.Property<int>("RegisteredHours");
+                    b.Property<int?>("RegisteredHours");
 
                     b.Property<int>("TimesheetID");
 
-                    b.Property<int>("Year");
-
                     b.HasKey("TimesheetDetailsID");
+
+                    b.HasIndex("ProjectID");
 
                     b.HasIndex("TimesheetID");
 
@@ -188,11 +182,6 @@ namespace WorkflowAPI.Migrations
 
             modelBuilder.Entity("BoardAPI.Models.ProjectsModels.Timesheet", b =>
                 {
-                    b.HasOne("BoardAPI.Models.ProjectsModels.Project", "Project")
-                        .WithMany("Timesheets")
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("BoardAPI.Models.UserModels.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -201,6 +190,10 @@ namespace WorkflowAPI.Migrations
 
             modelBuilder.Entity("BoardAPI.Models.ProjectsModels.TimesheetDetails", b =>
                 {
+                    b.HasOne("BoardAPI.Models.ProjectsModels.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectID");
+
                     b.HasOne("BoardAPI.Models.ProjectsModels.Timesheet", "Timesheet")
                         .WithMany("TimesheetDetails")
                         .HasForeignKey("TimesheetID")

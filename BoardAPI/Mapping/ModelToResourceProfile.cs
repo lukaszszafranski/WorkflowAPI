@@ -37,6 +37,14 @@ namespace BoardAPI.Mapping
             CreateMap<Task<IList<User>>, Task<IList<UserResource>>>();
             CreateMap<RegisterModel, User>();
             CreateMap<UpdateModel, User>();
+
+            //Role mapping
+            CreateMap<Role, RoleResource>();
+
+            //Timesheet mapping
+            CreateMap<Timesheet, TimesheetResource>();
+            CreateMap<Timesheet, ManagerTimesheetResource>();
+            CreateMap<TimesheetDetails, TimesheetDetailsResource>();
         }
     }
 }

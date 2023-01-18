@@ -15,19 +15,15 @@ namespace BoardAPI.Models.ProjectsModels
     public class Timesheet
     {
         public int TimesheetID { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public int TimeRegistrated { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public string TimesheetStatus { get; set; }
-        public IEnumerable<TimesheetDetails> TimesheetDetails { get; set; }
+        public IEnumerable<TimesheetDetails>? TimesheetDetails { get; set; }
 
         //Foreign Keys
         public User User { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public Project Project { get; set; }
-        [ForeignKey("Project")]
-        public int ProjectID { get; set; }
     }
 }

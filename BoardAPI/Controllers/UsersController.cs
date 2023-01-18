@@ -71,7 +71,8 @@ namespace BoardAPI.Controllers
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Token = tokenString
+                Token = tokenString,
+                Role = user.Role.Name
             });
         }
 
@@ -81,6 +82,12 @@ namespace BoardAPI.Controllers
         {
             // map model to entity
             var user = _mapper.Map<User>(model);
+            
+            user.Role = new Role()
+            {
+                UserId = user.Id,
+                Name = "Employee"
+            };
 
             try
             {

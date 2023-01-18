@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BoardAPI.Data;
 using BoardAPI.Models.UserModels;
+using AutoMapper;
+using BoardAPI.Resources;
 
 namespace WorkflowAPI.Controllers
 {
@@ -15,17 +17,20 @@ namespace WorkflowAPI.Controllers
     public class RolesController : ControllerBase
     {
         private readonly WorkflowAPIContext _context;
+        private readonly IMapper _mapper;
 
-        public RolesController(WorkflowAPIContext context)
+        public RolesController(WorkflowAPIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Roles
         [HttpGet]
-        public IEnumerable<Role> GetRole()
+        public IEnumerable<RoleResource> GetRole()
         {
-            return _context.Role;
+            var resources = _mapper.Map<IEnumerable<Role>, IEnumerable<RoleResource>>(_context.Role);
+            return resources;
         }
 
         // GET: api/Roles/5
@@ -38,13 +43,34 @@ namespace WorkflowAPI.Controllers
             }
 
             var role = await _context.Role.FindAsync(id);
+            var resource = _mapper.Map<RoleResource>(role);
 
-            if (role == null)
+            if (resource == null)
             {
                 return NotFound();
             }
 
-            return Ok(role);
+            return Ok(resource);
+        }
+
+        [HttpGet]
+        [Route("Users/{userId}")]
+        public async Task<IActionResult> GetRoleByUserId([FromRoute] int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var role = await Task.Run(() => _context.Role.First(x => x.UserId == userId));
+            var resource = _mapper.Map<RoleResource>(role);
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resource);
         }
 
         // PUT: api/Roles/5
@@ -84,14 +110,19 @@ namespace WorkflowAPI.Controllers
 
         // POST: api/Roles
         [HttpPost]
-        public async Task<IActionResult> PostRole([FromBody] Role role)
+        public async Task<IActionResult> PostRole([FromBody] RoleResource role)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Role.Add(role);
+            var newRole = _mapper.Map<Role>(role);
+
+            var foundUser = _context.Users.First(x => x.Id == newRole.Id);
+            newRole.User = foundUser;
+
+            _context.Role.Add(newRole);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRole", new { id = role.Id }, role);

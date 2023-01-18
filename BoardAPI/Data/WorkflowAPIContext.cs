@@ -47,5 +47,6 @@ namespace BoardAPI.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Timesheet> Timesheet { get; set; }
+        public DbSet<TimesheetDetails> TimesheetDetails { get; set; }
     }
 }

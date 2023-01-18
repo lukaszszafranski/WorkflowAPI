@@ -9,6 +9,7 @@ using BoardAPI.Data;
 using BoardAPI.Helpers;
 using BoardAPI.Models.UserModels;
 using BoardAPI.Repositories.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,13 +40,16 @@ namespace BoardAPI.Repositories
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
+            // retrieve role for authenticated user
+            user.Role = _context.Role.First(x => x.UserId == user.Id);
+
             // authentication successful
             return user;
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            return _context.Users.Include(x => x.Role);
         }
 
         public User GetById(int id)

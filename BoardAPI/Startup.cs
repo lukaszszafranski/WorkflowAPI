@@ -25,7 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using WorkflowAPI.Chat;
 
 namespace BoardAPI
@@ -42,17 +42,18 @@ namespace BoardAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                    .AddJsonOptions(options =>
-                    {
-                        options.SerializerSettings.Formatting = Formatting.Indented;
-                    });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
 
             services.AddDbContext<WorkflowAPIContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WorkflowAPIContext")));
 
+            services.AddControllers();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -108,7 +109,7 @@ namespace BoardAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "WorkflowAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkflowAPI", Version = "v1" });
             });
         }
 
@@ -124,16 +125,15 @@ namespace BoardAPI
                 app.UseHsts();
             }
 
-            app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials());
+            app.UseCors("CorsPolicy");
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-
-            app.UseMvc();
+            app.UseAuthorization();
 
             app.UseExceptionHandler(a => a.Run(async context =>
             {
@@ -144,6 +144,11 @@ namespace BoardAPI
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(result);
             }));
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.UseSignalR(options =>
             {

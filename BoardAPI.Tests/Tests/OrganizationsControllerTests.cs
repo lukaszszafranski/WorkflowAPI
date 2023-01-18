@@ -24,7 +24,7 @@ namespace WorkflowAPI.Tests.Tests
         IOrganizationService _service;
 
         [OneTimeSetUp]
-        public void setUp()
+        public void SetUp()
         {
             _service = new OrganizationServiceFake();
         }
