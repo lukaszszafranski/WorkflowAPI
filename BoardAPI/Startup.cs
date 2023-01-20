@@ -48,6 +48,14 @@ namespace BoardAPI
                     builder => builder.AllowAnyOrigin()
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
+
+                options.AddPolicy("signalr",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(hostName => true));
             });
 
             services.AddDbContext<WorkflowAPIContext>(options =>
@@ -125,7 +133,8 @@ namespace BoardAPI
                 app.UseHsts();
             }
 
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
+            app.UseCors("signalr");
 
             app.UseStaticFiles();
 
@@ -148,11 +157,7 @@ namespace BoardAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-            app.UseSignalR(options =>
-            {
-                options.MapHub<MessageHub>("/MessageHub");
+                endpoints.MapHub<MessageHub>("/MessageHub");
             });
 
             app.UseSwagger();

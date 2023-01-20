@@ -5,13 +5,12 @@
  * Written by Łukasz Szafrański <lukasz.szafranski16@wp.pl>, Krzysztof Łepkowski, Szymon Lewandowski, May 2020
  */
 
-using BoardAPI.Models.ProjectsModels;
 using System;
 using System.Collections.Generic;
 
 namespace BoardAPI.Resources
 {
-    public class TimesheetResource
+    public class ManagerTimesheetResource
     {
         public int TimesheetID { get; set; }
         public int Month { get; set; }
@@ -20,5 +19,8 @@ namespace BoardAPI.Resources
         public string TimesheetStatus { get; set; }
         public IEnumerable<TimesheetDetailsResource>? TimesheetDetails { get; set; }
         public string userId { get; set; }
+        public string? firstName { get; set; }
+        public string? lastName { get; set; }
+        public string? role { get; set; }
     }
 }

@@ -136,15 +136,15 @@ namespace WorkflowAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Manager/Table/{userId}")]
-        public async Task<IActionResult> GetTimesheetsByUserIdWithDifferentStructure([FromRoute] int userId)
+        [Route("Manager/Table")]
+        public async Task<IActionResult> GetTimesheetsByUserIdWithDifferentStructure()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var timesheet = await System.Threading.Tasks.Task.Run(() => _context.Timesheet.Where(x => x.UserId == userId).AsEnumerable());
+            var timesheet = await System.Threading.Tasks.Task.Run(() => _context.Timesheet.Include(x => x.TimesheetDetails).AsEnumerable());
             var resource = _mapper.Map<IEnumerable<ManagerTimesheetResource>>(timesheet);
 
             foreach (var item in resource)
@@ -160,7 +160,116 @@ namespace WorkflowAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(resource.OrderBy(x => x.Year).OrderBy(x => x.Month));
+            return Ok(resource.OrderBy(x => x.userId).OrderBy(x => x.Year).OrderBy(x => x.Month));
+        }
+
+        [HttpGet]
+        [Route("Manager/Chart/Data")]
+        public async Task<IActionResult> GetTimesheetsDataForChart()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var timesheet = await System.Threading.Tasks.Task.Run(() => _context.Timesheet.Include(x => x.TimesheetDetails).AsEnumerable());
+            var resource = _mapper.Map<IEnumerable<ManagerTimesheetResource>>(timesheet);
+
+            var listOfChartData = new List<ChartData>();
+
+            foreach (var item in resource)
+            {
+                var foundUser = _context.Users.Include(x => x.Role).First(x => x.Id == int.Parse(item.userId));
+
+                var chartData = new ChartData()
+                {
+                    name = foundUser.FirstName + ' ' + foundUser.LastName,
+                    totalRegisteredHours = (int)item.TimesheetDetails.Select(x => x.RegisteredHours).Sum()
+                };
+
+                listOfChartData.Add(chartData);
+            }
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(listOfChartData.GroupBy(x => x.name).Select(x => new { name = x.Key, value = x.Select(x => x.totalRegisteredHours).Sum() }));
+        }
+
+        [HttpGet]
+        [Route("User/Chart/Data/{userId}")]
+        public async Task<IActionResult> GetTimesheetsDataForChartForUser([FromRoute] string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var timesheet = await System.Threading.Tasks.Task.Run(() => _context.Timesheet.Include(x => x.TimesheetDetails).Where(x => x.UserId == int.Parse(userId)).AsEnumerable());
+            var resource = _mapper.Map<IEnumerable<ManagerTimesheetResource>>(timesheet).OrderBy(x => x.Year).OrderBy(x => x.Month);
+
+            var listOfChartData = new List<ChartData>();
+
+            foreach (var item in resource)
+            {
+                var foundUser = _context.Users.Include(x => x.Role).First(x => x.Id == int.Parse(userId));
+
+                var chartData = new ChartData()
+                {
+                    name = item.Month.ToString() + "-" +  item.Year.ToString(),
+                    totalRegisteredHours = (int)item.TimesheetDetails.Select(x => x.RegisteredHours).Sum()
+                };
+
+                listOfChartData.Add(chartData);
+            }
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(listOfChartData.GroupBy(x => x.name).Select(x => new { name = x.Key, value = x.Select(x => x.totalRegisteredHours).Sum() }));
+        }
+
+        [HttpGet]
+        [Route("User/Chart/Data/Project/{userId}")]
+        public async Task<IActionResult> GetTimesheetsDataForChartForUserPerProject([FromRoute] string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var timesheet = await System.Threading.Tasks.Task.Run(() => _context.Timesheet.Include(x => x.TimesheetDetails).Where(x => x.UserId == int.Parse(userId)).AsEnumerable());
+            var resource = _mapper.Map<IEnumerable<ManagerTimesheetResource>>(timesheet);
+
+            var listOfChartData = new List<ChartData>();
+
+            foreach (var item in resource)
+            {
+                var foundUser = _context.Users.Include(x => x.Role).First(x => x.Id == int.Parse(userId));
+                var foundDetails = _context.TimesheetDetails.Where(x => x.TimesheetID == item.TimesheetID).AsEnumerable().GroupBy(x => x.ProjectID).Select( x => new { ProjectId = x.Key, value = x.Select(x => x.RegisteredHours).Sum() });
+
+                foreach (var item2 in foundDetails)
+                {
+                    var chartData = new ChartData()
+                    {
+                        name = foundDetails != null ? _context.Projects.First(x => x.ProjectID == item2.ProjectId).Title : "Brak projektu",
+                        totalRegisteredHours = (int)item2.value
+                    };
+
+                    listOfChartData.Add(chartData);
+                }
+            }
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(listOfChartData.GroupBy(x => x.name).Select(x => new { name = x.Key, value = x.Select(x => x.totalRegisteredHours).Sum() }));
         }
 
         // PUT: api/Timesheets/5
