@@ -43,13 +43,13 @@ git clone https://github.com/lukaszszafranski/WorkflowAPI.git
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-For usage examples please refer to the [Live Documentation in API](https://workflowapi2020.azurewebsites.net/swagger/index.html)
+For usage examples please refer to the [Live Documentation in API](https://workflowapi2023.azurewebsites.net/swagger/index.html)
 
 ## Trello Board
 [Trello](https://trello.com/b/urwhTkAJ/in%C5%BCynieria-oprogramowania)
 
 ## WWW
-https://workflowapi2020.azurewebsites.net/
+https://workflowapi2023.azurewebsites.net/
 
 ## Documentation
 https://docs.google.com/document/d/1tpDOvnk2pOgKiGyWv67dbtkNvh2Kq3ow-ja4Bn4SdpY/edit?pli=1#
